@@ -1,3 +1,3 @@
-This is a website that contains a short profile of myself and a place to contact me regarding any enquiries.
+Short profile on Github's website host service.
 
-Access the website through this link: https://aryankalra.github.io
+https://aryankalra.github.io
