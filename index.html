@@ -1,171 +1,177 @@
 <!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
 
-<title>aryan</title>
+    <title>aryan</title>
 
-<style>
-:root{
-  --bg:#111212;
-  --green:rgba(79,192,141,.5);
-}
+    <style>
+      :root {
+        --bg: #111212;
+        --green: rgba(79, 192, 141, 0.5);
+      }
 
-*{
-  box-sizing:border-box;
-}
+      * {
+        box-sizing: border-box;
+      }
 
-body{
-  min-height:100vh;
-  margin:0;
-  padding:0 10vw;
+      body {
+        min-height: 100vh;
+        margin: 0;
+        padding: 0 10vw;
 
-  display:flex;
-  align-items:center;
+        display: flex;
+        align-items: center;
 
-  background:var(--bg);
-  color:white;
+        background: var(--bg);
+        color: white;
 
-  font-family:
-  "Rubik",
-  -apple-system,
-  BlinkMacSystemFont,
-  "Segoe UI",
-  Roboto,
-  sans-serif;
+        font-family:
+          "Rubik",
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          sans-serif;
 
-  font-size:16px;
-  -webkit-font-smoothing:antialiased;
-}
+        font-size: 16px;
+        -webkit-font-smoothing: antialiased;
+      }
 
-main{
-  max-width:650px;
-}
+      main {
+        max-width: 650px;
+      }
 
-h1{
-  display:flex;
-  align-items:center;
+      h1 {
+        display: flex;
+        align-items: center;
 
-  margin:0 0 .3em;
+        margin: 0 0 0.3em;
 
-  font-size:3rem;
-  font-weight:500;
-  line-height:1;
-}
+        font-size: 3rem;
+        font-weight: 500;
+        line-height: 1;
+      }
 
-.cursor{
-  display:inline-block;
+      .cursor {
+        display: inline-block;
 
-  height:.8em;
-  margin-left:3px;
+        height: 0.8em;
+        margin-left: 3px;
 
-  border-right:2px solid white;
+        border-right: 2px solid white;
 
-  animation:blink .8s step-end infinite;
-}
+        animation: blink 0.8s step-end infinite;
+      }
 
-@keyframes blink{
-  50%{
-    border-color:transparent;
-  }
-}
+      @keyframes blink {
+        50% {
+          border-color: transparent;
+        }
+      }
 
-p{
-  max-width:32em;
-  margin:1.2em 0;
+      p {
+        max-width: 32em;
+        margin: 1.2em 0;
 
-  font-size:1.2rem;
-  font-weight:300;
-  line-height:1.5;
-}
+        font-size: 1.2rem;
+        font-weight: 300;
+        line-height: 1.5;
+      }
 
-a{
-  position:relative;
-  color:white;
-  text-decoration:none;
-}
+      a {
+        position: relative;
+        color: white;
+        text-decoration: none;
+      }
 
-a::after{
-  content:"";
+      a::after {
+        content: "";
 
-  position:absolute;
-  left:0;
-  right:0;
-  bottom:0;
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
 
-  height:.35em;
+        height: 0.35em;
 
-  z-index:-1;
+        z-index: -1;
 
-  transition:.2s;
-}
+        transition: 0.2s;
+      }
 
-a:hover::after{
-  height:100%;
-}
+      a:hover::after {
+        height: 100%;
+      }
 
-.green::after{
-  background:var(--green);
-}
+      .green::after {
+        background: var(--green);
+      }
 
-footer{
-  position:fixed;
+      footer {
+        position: fixed;
 
-  bottom:20px;
-  left:10vw;
+        bottom: 20px;
+        left: 10vw;
 
-  color:rgba(255,255,255,.5);
+        color: rgba(255, 255, 255, 0.5);
 
-  font-size:.85rem;
-  font-weight:300;
-}
-</style>
+        font-size: 0.85rem;
+        font-weight: 300;
+      }
 
-</head>
+      footer a {
+        color: white !important;
+      }
+    </style>
+  </head>
 
-<body>
+  <body>
+    <main>
+      <h1><span id="text"></span><span class="cursor"></span></h1>
 
-<main>
+      <p>
+        My name is
+        <a
+          class="green"
+          href="https://www.linkedin.com/in/aryan-kalra-5b0920249/"
+          target="_blank"
+          >Aryan</a
+        >.
+      </p>
 
-<h1>
-<span id="text"></span><span class="cursor"></span>
-</h1>
+      <p>I have a degree in computer science.</p>
 
-<p>
-My name is <a class="green" href="https://www.linkedin.com/in/aryan-kalra-5b0920249/" target="_blank">Aryan</a>.
-</p>
+      <p>That's basically it.</p>
+    </main>
 
-<p>
-I have a degree in computer science.
-</p>
+    <footer>
+      Created 2023. Last updated 2026.
+      <a
+        href="version.html"
+        target="_blank"
+        style="color: white; text-decoration: none; font-weight: bold"
+      >
+        Version 1.0
+      </a>
+    </footer>
 
-<p>
-That's basically it.
-</p>
+    <script>
+      const text = "Hi,";
+      const output = document.getElementById("text");
 
-</main>
+      let index = 0;
 
-<footer>
-Created 2023. Last updated 2026.
-</footer>
+      function type() {
+        if (index < text.length) {
+          output.textContent += text[index];
+          index++;
+          setTimeout(type, 500);
+        }
+      }
 
-<script>
-const text = "Hi,";
-const output = document.getElementById("text");
-
-let index = 0;
-
-function type(){
-  if(index < text.length){
-    output.textContent += text[index];
-    index++;
-    setTimeout(type,500);
-  }
-}
-
-setTimeout(type,500);
-</script>
-
-</body>
+      setTimeout(type, 500);
+    </script>
+  </body>
 </html>
