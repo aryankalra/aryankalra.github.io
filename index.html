@@ -60,7 +60,9 @@
         height: 0.8em;
         margin-left: 3px;
 
-        border-right: 2px solid white;
+        border-right: 1px solid white;
+
+        transform: scaleY(1.4);
 
         animation: blink 0.8s step-end infinite;
       }
@@ -124,6 +126,28 @@
       footer a {
         color: white !important;
       }
+
+      #inputLine {
+        display: none;
+      }
+
+      #userInput {
+        background: transparent;
+        border: none;
+        outline: none;
+        color: white;
+        font: inherit;
+        width: 100%;
+      }
+
+      #userInput::placeholder {
+        color: rgba(255, 255, 255, 0.4);
+      }
+
+      #line3 {
+        max-width: 16em;
+        overflow-wrap: break-word;
+      }
     </style>
   </head>
 
@@ -132,18 +156,27 @@
       <h1><span id="text"></span><span class="cursor"></span></h1>
 
       <p>
-        My name is
+        <span id="line1"></span>
         <a
           class="green"
           href="https://www.linkedin.com/in/aryan-kalra-5b0920249/"
           target="_blank"
-          >Aryan</a
-        >.
+          ><span id="name"></span></a
+        ><span id="dot"></span>
       </p>
 
-      <p>I have a degree in computer science.</p>
+      <p id="line2"></p>
 
-      <p>That's basically it.</p>
+      <p id="line3" contenteditable="false"><span id="fixedText"></span></p>
+
+      <p id="inputLine">
+        <input
+          id="userInput"
+          type="text"
+          placeholder="Type here..."
+          autocomplete="off"
+        />
+      </p>
     </main>
 
     <footer>
@@ -158,18 +191,142 @@
     </footer>
 
     <script>
-      const text = "Hi,";
-      const output = document.getElementById("text");
+      const lines = [
+        { id: "text", text: "Hi," },
+        { id: "line1", text: "My name is " },
+        { id: "name", text: "Aryan" },
+        { id: "dot", text: "." },
+        { id: "line2", text: "I have a degree in computer science." },
+        { id: "fixedText", text: "That's basically it." },
+      ];
 
-      let index = 0;
+      let line = 0;
+      let char = 0;
+      let typingEnabled = false;
+
+      const cursor = document.querySelector(".cursor");
 
       function type() {
-        if (index < text.length) {
-          output.textContent += text[index];
-          index++;
-          setTimeout(type, 500);
+        const output = document.getElementById(lines[line].id);
+
+        if (char < lines[line].text.length) {
+          output.textContent += lines[line].text[char];
+          output.appendChild(cursor);
+
+          char++;
+          setTimeout(type, lines[line].id === "dot" ? 0 : 40);
+        } else {
+          line++;
+          char = 0;
+
+          if (line < lines.length) {
+            setTimeout(
+              () => {
+                document.getElementById(lines[line].id).appendChild(cursor);
+                type();
+              },
+              lines[line].id === "dot" ? 0 : 700,
+            );
+          } else {
+            document.getElementById("line3").appendChild(cursor);
+            typingEnabled = true;
+          }
         }
       }
+
+      document.addEventListener("keydown", (e) => {
+        if (!typingEnabled) return;
+
+        const output = document.getElementById("line3");
+        const fixedText = "That's basically it.";
+        const selection = window.getSelection();
+
+        // Delete highlighted text
+        if (e.key === "Backspace" && selection.toString().length > 0) {
+          e.preventDefault();
+
+          cursor.remove();
+
+          const range = selection.getRangeAt(0);
+
+          // Prevent deleting the fixed text
+          const fixedNode = output.firstChild;
+
+          if (
+            fixedNode &&
+            range.startContainer === fixedNode &&
+            range.startOffset < fixedText.length
+          ) {
+            range.setStart(fixedNode, fixedText.length);
+          }
+
+          range.deleteContents();
+
+          selection.removeAllRanges();
+
+          // Keep cursor where deletion happened
+          range.collapse(true);
+          range.insertNode(cursor);
+
+          return;
+        }
+
+        // Normal backspace
+        if (e.key === "Backspace") {
+          e.preventDefault();
+
+          cursor.remove();
+
+          let previous = output.lastChild;
+
+          // Remove line break first
+          if (previous && previous.nodeName === "BR") {
+            previous.remove();
+
+            output.appendChild(cursor);
+            return;
+          }
+
+          // Only delete user-entered text
+          if (previous && previous.nodeType === Node.TEXT_NODE) {
+            let text = output.textContent;
+
+            if (text.length > fixedText.length) {
+              previous.textContent = previous.textContent.slice(0, -1);
+
+              if (previous.textContent.length === 0) {
+                previous.remove();
+              }
+            }
+          }
+
+          output.appendChild(cursor);
+
+          return;
+        }
+
+        // Enter = new line
+        if (e.key === "Enter") {
+          e.preventDefault();
+
+          cursor.remove();
+
+          output.appendChild(document.createElement("br"));
+
+          output.appendChild(cursor);
+
+          return;
+        }
+
+        // Typing
+        if (e.key.length === 1) {
+          cursor.remove();
+
+          output.appendChild(document.createTextNode(e.key));
+
+          output.appendChild(cursor);
+        }
+      });
 
       setTimeout(type, 500);
     </script>
