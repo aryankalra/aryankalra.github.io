@@ -192,12 +192,16 @@
 
     <script>
       const lines = [
-        { id: "text", text: "Hi," },
-        { id: "line1", text: "My name is " },
-        { id: "name", text: "Aryan" },
-        { id: "dot", text: "." },
-        { id: "line2", text: "I have a degree in computer science." },
-        { id: "fixedText", text: "That's basically it." },
+        { id: "text", text: "Hi,", delay: 700 },
+        { id: "line1", text: "My name is ", delay: 150 },
+        { id: "name", text: "Aryan", delay: 0 },
+        { id: "dot", text: ".", delay: 0 },
+        {
+          id: "line2",
+          text: "I have a degree in computer science.",
+          delay: 700,
+        },
+        { id: "fixedText", text: "That's basically it.", delay: 700 },
       ];
 
       let line = 0;
@@ -214,19 +218,19 @@
           output.appendChild(cursor);
 
           char++;
-          setTimeout(type, lines[line].id === "dot" ? 0 : 40);
+          setTimeout(
+            type,
+            lines[line].id === "dot" ? 0 : Math.random() * 30 + 20,
+          );
         } else {
           line++;
           char = 0;
 
           if (line < lines.length) {
-            setTimeout(
-              () => {
-                document.getElementById(lines[line].id).appendChild(cursor);
-                type();
-              },
-              lines[line].id === "dot" ? 0 : 700,
-            );
+            setTimeout(() => {
+              document.getElementById(lines[line].id).appendChild(cursor);
+              type();
+            }, lines[line].delay ?? 700);
           } else {
             document.getElementById("line3").appendChild(cursor);
             typingEnabled = true;
